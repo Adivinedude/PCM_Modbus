@@ -83,7 +83,9 @@ void setup() {
         previous_value = address;
       }
     }
-    //Serial.end();
+    #ifndef DEBUG_MY_PROGRAM 
+      Serial.end();
+    #endif
   }
   setup_pins();
   setup_modbus(address);

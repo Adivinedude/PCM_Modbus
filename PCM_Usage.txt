@@ -76,7 +76,7 @@ Pump 4
 ------DC Motor controlled by H-Bridge
 
 Pump 1
-0x00 - h_register - CALIBRATION value. "Second per Unit" or "Pulses per Unit"
+0x00 - h_register - CALIBRATION value. "milliseconds per Unit" or "Pulses per Unit"
 0x01 - h_register - DURATION. How many seconds to dispense the dose
 0x02 - h_register - DOSE. How many units to dispense
 0x03 - h_register - Motor Type. see selected driver for options

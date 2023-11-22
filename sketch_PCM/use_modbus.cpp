@@ -18,15 +18,15 @@ void setup_modbus(int address){
   _modbus.configureHoldingRegisters(hr_data,    hold_register_total * MAX_NUM_PUMP);
   _modbus.configureInputRegisters(  ir_data,    input_register_total* MAX_NUM_PUMP + 2); //Plus special registers
 
-  for(int i = 0; i != coil_total*4; i++)
+  for(int i = 0; i != coil_total * MAX_NUM_PUMP; i++)
     coil_data[i] = 0;
 
-  for(int i = 0; i != descrete_input_total*4; i++)
+  for(int i = 0; i != descrete_input_total * MAX_NUM_PUMP; i++)
     di_data[i] = 0;
 
-  for(int i = 0; i != hold_register_total*4; i++)
+  for(int i = 0; i != hold_register_total * MAX_NUM_PUMP; i++)
     hr_data[i] = 0;
 
-  for(int i = 0; i != input_register_total*4+2; i++)
+  for(int i = 0; i != input_register_total * MAX_NUM_PUMP + 2; i++)
     ir_data[i] = 0;
 }

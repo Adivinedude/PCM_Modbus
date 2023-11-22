@@ -164,7 +164,6 @@ void RunStateMachine(unsigned char c, unsigned char d, unsigned char h, unsigned
         cycles = (float)pump[PUMP_DURATION];             //Total one second CYCLES
         dose = total / cycles;                    //Total amount to DOSE per cycle = total/cycles
 
-        //ToDo: this error check does not work. fix it
         if( total >= 65536 ) {         //ERROR can not pump more than we can count.
           pump[PUMP_STATE] |= 0x03;    //enter last state
           di_data[ i + DI_ERROR ] = 1; //set error flag

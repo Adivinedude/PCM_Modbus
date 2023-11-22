@@ -71,12 +71,12 @@ void setup() {
     analogRead(POT_IN);
     delay(100);
     //BugFix:cant set address to 1 or 32 bug. Pad the analogread() by 5% on the ends.
-    address = map( constrain(analogRead(POT_IN), 50, 972) , 0, 1023, 1, 32); // Get address from the pot
+    address = map( constrain(analogRead(POT_IN), 50, 972) , 50, 972, 1, 32); // Get address from the pot
     previous_value = address;
     Serial.begin(9600);
     unsigned long time = millis()+5000;
     while( millis() < time ){
-      address  = map( constrain(analogRead(POT_IN), 50, 972) , 0, 1023, 1, 32);
+      address  = map( constrain(analogRead(POT_IN), 50, 972) , 50, 972, 1, 32);
       if(address != previous_value){
         time = millis() + 10000; //give user another 10 seconds to change the address
         Serial.println( address );

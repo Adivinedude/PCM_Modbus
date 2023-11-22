@@ -13,10 +13,17 @@ void setup_feedback(){
 void enable_feedback(unsigned char pump_number){
   //set the Interrupt to fire on this pin
   #if defined(__AVR_ATmega32U4__) || defined(__AVR_ATmega16U4__)
-    SETBIT(PCMSK0, pump_number, 1);
+    SETBIT(PCMSK0, pump_number, 1); //PB0 - PB3
   #endif
   #if defined(__AVR_ATmega328P__) || defined(__AVR_ATmega168__)
-    SETBIT(PCMSK0, (pump_number + 2), 1);
+    switch(pump_number){
+      case 0:
+      case 1:
+        SETBIT(PCMSK0, (pump_number + 1), 1); //PB1,PB2
+        break;
+      default:
+        SETBIT(PCMSK0, (pump_number + 2), 1); //PB4,PB5
+    }
   #endif
 }
 
@@ -26,7 +33,14 @@ void disable_feedback(unsigned char pump_number){
     SETBIT(PCMSK0, pump_number, 0); 
   #endif
   #if defined(__AVR_ATmega328P__) || defined(__AVR_ATmega168__)
-    SETBIT(PCMSK0, (pump_number + 2), 0);
+    switch(pump_number){
+      case 0:
+      case 1:
+        SETBIT(PCMSK0, (pump_number + 1), 0); //PB1,PB2
+        break;
+      default:
+        SETBIT(PCMSK0, (pump_number + 2), 0); //PB4,PB5
+    }
   #endif    
 }
 

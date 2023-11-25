@@ -1,4 +1,4 @@
-//This library has been modified
+//This library has been modified to remove software serial
 #include "ModbusRTUSlave.h"
 
 ModbusRTUSlave::ModbusRTUSlave(HardwareSerial& serial, uint8_t dePin) {

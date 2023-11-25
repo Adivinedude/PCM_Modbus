@@ -1,6 +1,6 @@
 #include "_Stepper_motor.h"
 #include "../../globals.h"
-#include "Stepper_compact.h"
+#include "../Stepper_compact/Stepper_compact.h"
 
 /////////////////
 //Stepper Motor//

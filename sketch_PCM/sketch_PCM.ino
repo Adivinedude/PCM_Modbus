@@ -38,7 +38,7 @@
 #include "globals.h"
 #include "src/motors/_motor_drivers.h"
 
-#define DEBUG_MY_PROGRAM
+//#define DEBUG_MY_PROGRAM
 #ifdef DEBUG_MY_PROGRAM
   unsigned int debug_test_value = 0;
   bool debug_state_change = true;

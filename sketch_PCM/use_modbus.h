@@ -1,6 +1,6 @@
 #ifndef __USE_MODBUS_H__
   #define __USE_MODBUS_H__
-  #include "ModbusRTUSlave.h"
+  #include "./src/ModbusRTUSlave_modified/ModbusRTUSlave.h"
   #include "register_mapping.h" 
   extern ModbusRTUSlave _modbus;
 

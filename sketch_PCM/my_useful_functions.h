@@ -1,4 +1,4 @@
-#define DEBUG_MY_PROGRAM
+//#define DEBUG_MY_PROGRAM
 
 #ifndef __MY_USEFUL_FUNCTIONS_H__
   #define __MY_USEFUL_FUNCTIONS_H__

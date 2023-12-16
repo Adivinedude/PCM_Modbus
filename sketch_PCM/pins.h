@@ -29,7 +29,7 @@
 
     #define RS485_TX            1  // PD3
     #define RS485_RX            0  // PD2
-    #define RS485_DERE          18 // A0 PF7
+    #define RS485_DERE          18 // A0  PF7
 
     #define POT_IN              19 // A5 PC5
   #endif

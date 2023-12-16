@@ -39,6 +39,8 @@
 #include "src/motors/_motor_drivers.h"
 
 //#define DEBUG_MY_PROGRAM
+#define DEBUG_FORCE_ADDRESS 1
+
 #ifdef DEBUG_MY_PROGRAM
   unsigned int debug_test_value = 0;
   bool debug_state_change = true;
@@ -54,13 +56,15 @@ int freeRam(){ extern int __heap_start,*__brkval; unsigned int a;return(int)&a-(
 void RunStateMachine(unsigned char c, unsigned char d, unsigned char h, unsigned char i, unsigned char pump_number);
 
 void setup() {
-
+  setup_pins();
   // configure modbus address via serial and potentiometer
   // if no change is detected. no writes to the com line will be made
   // Do not adjust potentiometer while connected to Modbus line, this will violate the protocol!!!!!!!!
   // has no effect after startup.
   // Give the user 5 seconds to make first adjustment, after that lock out this feature.
+
   int address;
+  
   {
     int previous_value;
     #ifdef DEBUG_MY_PROGRAM
@@ -75,6 +79,11 @@ void setup() {
     previous_value = address;
     Serial.begin(9600);
     unsigned long time = millis()+5000;
+    
+    #ifdef DEBUG_FORCE_ADDRESS
+    time = 0;
+    #endif
+
     while( millis() < time ){
       address  = map( constrain(analogRead(POT_IN), 50, 972) , 50, 972, 1, 32);
       if(address != previous_value){
@@ -87,8 +96,13 @@ void setup() {
       Serial.end();
     #endif
   }
-  setup_pins();
+  
+#ifndef DEBUG_FORCE_ADDRESS
   setup_modbus(address);
+#elseif
+  setup_modbus(DEBUG_FORCE_ADDRESS);
+#endif
+  //setup_modbus(1);
   setup_feedback();
   DEBUG_STATE_CHANGE
 }
@@ -125,6 +139,8 @@ void RunStateMachine(unsigned char c, unsigned char d, unsigned char h, unsigned
   //update Modbus total dispenced units 
   if(pump[PUMP_CAL])
     ir_data[ i + IR_TOTAL] = pump_counters[pump_number]/pump[PUMP_CAL];
+  //update Modbus feedback counter
+    ir_data[ i + IR_FEEDBACK_COUNTER] = pump_counters[pump_number];
 
   //run current state of the machine
   switch(STATE_BITS & pump[PUMP_STATE]){
@@ -164,16 +180,20 @@ void RunStateMachine(unsigned char c, unsigned char d, unsigned char h, unsigned
         cycles = (float)pump[PUMP_DURATION];             //Total one second CYCLES
         dose = total / cycles;                    //Total amount to DOSE per cycle = total/cycles
 
+        //ToDo: this error check does not work. fix it
+        /*
         if( total >= 65536 ) {         //ERROR can not pump more than we can count.
           pump[PUMP_STATE] |= 0x03;    //enter last state
           di_data[ i + DI_ERROR ] = 1; //set error flag
           break;
         }
+        */
         if( dose == 0){ dose = 1; } //fix possible of a 0 dose. 
         //store values
-        ir_data[ i + IR_TOTAL_FEEDBACK ] = total;
+        //ir_data[ i + IR_TOTAL_FEEDBACK ] = total;
+        pump_total[pump_number]        = total;
         ir_data[ i + IR_CYCLES ]         = cycles;
-        ir_data[ i + IR_DOSE ]           =  dose;
+        ir_data[ i + IR_DOSE ]           = dose;
       }
       //initalize some data
       ir_data[ i + IR_TIMER_VALUE ] = 0;  //set cycle timer to 0
@@ -192,7 +212,7 @@ void RunStateMachine(unsigned char c, unsigned char d, unsigned char h, unsigned
       //or the request has been saticfied and debug is false
       if( !READBIT(pump[PUMP_STATE], ENABLE_BIT)
       ||
-        ( ir_data[ i + IR_TOTAL_FEEDBACK ] <= pump_counters[pump_number]
+        ( pump_total[pump_number] <= pump_counters[pump_number]
         &&
         !READBIT( pump[PUMP_STATE], DEBUG_BIT) )
       ){
@@ -220,7 +240,7 @@ void RunStateMachine(unsigned char c, unsigned char d, unsigned char h, unsigned
         // check if the request has been saticfied 
         // or the dose has been reached 
         // or the enable bit is low
-        if( ir_data[ i + IR_TOTAL_FEEDBACK ] <= pump_counters[pump_number] 
+        if( pump_total[pump_number] <= pump_counters[pump_number] 
         ||
             (pump[PUMP_DURATION]-ir_data[IR_CYCLES]) * ir_data[ i + IR_DOSE ] <= pump_counters[pump_number]
         ||
@@ -254,7 +274,7 @@ void RunStateMachine(unsigned char c, unsigned char d, unsigned char h, unsigned
 #ifdef DEBUG_MY_PROGRAM
   void HandleSerialInput(){
     uint16_t *pump = pump_values[0];
-    /*
+    
     if( debug_state_change && ( (STATE_BITS & pump[PUMP_STATE]) != 0x02) ){
       debug_state_change = false;
 
@@ -285,7 +305,7 @@ void RunStateMachine(unsigned char c, unsigned char d, unsigned char h, unsigned
       Serial.print(F("current feedback:"));Serial.println( pump_counters[0] );
       Serial.print(F("Cycles:"));       Serial.println( ir_data[ IR_CYCLES ] );
       Serial.print(F("Dose:"));         Serial.println( ir_data[ IR_DOSE ] );
-      //Serial.flush();
+      Serial.flush();
 
       Serial.print(F("Timer:"));        Serial.println( ir_data[ IR_TIMER_VALUE ] );
       Serial.print(F("total units:"));   Serial.println( ir_data[ IR_TOTAL ] );
@@ -294,10 +314,10 @@ void RunStateMachine(unsigned char c, unsigned char d, unsigned char h, unsigned
       Serial.print(F("Loops:"));        Serial.println( ir_data[ IR_LOOP_SPEED ] );
       
       Serial.println("");
-      //Serial.flush();
+      Serial.flush();
       
     }
-*/
+
     while(Serial.available()){
       if( !di_data[ DI_BUSY ] )
         debug_test_value += 1;

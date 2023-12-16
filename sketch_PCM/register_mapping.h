@@ -24,13 +24,13 @@
     HR_CAL = 0,         // How many feedback pulses equals 1 unit
     HR_DURATION,        // Minimume time to take to despence requested amount
     HR_DOSE,            // How many units to dispence
-    HR_MOTOR_TYPE,      // 0 = DC, 1 = Servo, 2 = Stepper(bipolar)
+    HR_MOTOR_TYPE,      // 0 = DC, 1 = Servo, 2 = Stepper(bipolar), 4 = Pulse Step
     hold_register_total
   };
 
   //input registers
   enum input_registers{
-    IR_TOTAL_FEEDBACK = 0, // How many feedback pulses to complete the request
+    IR_FEEDBACK_COUNTER = 0, // Current value of feedback pulses
     IR_CYCLES,          // How many 1 second cycles left until the request is complete
     IR_DOSE,            // How many feedback pulses be dispenced per cycle
     IR_TIMER_VALUE,     // Time the last cycle started
@@ -79,7 +79,8 @@
     PUMP_CAL,         //current command paramaters
     PUMP_DURATION,    //how long to dispence set amount
     PUMP_DOSE,        //
-    PUMP_CYCLE_START_FEEDBACK //Feedback counter value at start of current cycle
+    PUMP_CYCLE_START_FEEDBACK, //Feedback counter value at start of current cycle
+    PUMP_VALUE_SIZE
   };
 
   //bits of pump_values[PUMP_STATE] register

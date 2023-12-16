@@ -97,7 +97,7 @@ class Stepper {
     void update();
     void nonblocking_step(int steps_to_move);
     int steps_left;
-    volatile uint16_t* _feedback;
+    volatile uint32_t* _feedback;
 
   private:
     void stepMotor(int this_step);

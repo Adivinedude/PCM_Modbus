@@ -1,4 +1,4 @@
-//This library has been modified to remove software serial
+//This library has been modified
 #ifndef ModbusRTUSlave_h
 #define ModbusRTUSlave_h
 

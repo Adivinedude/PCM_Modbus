@@ -2,10 +2,11 @@
 #include "register_mapping.h"
 
 //storage for the state of each pump
-uint16_t pump_values[4][5] = {{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0}};
+uint16_t pump_values[4][PUMP_VALUE_SIZE] = {{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0}};
+uint32_t pump_total[4] = {0,0,0,0};
 
 //feedback counters for each pump 
-volatile uint16_t pump_counters[4] = {0,0,0,0};     
+volatile uint32_t pump_counters[4] = {0,0,0,0};     
 
 //modbus data
 bool  coil_data [MAX_NUM_PUMP * coil_total];

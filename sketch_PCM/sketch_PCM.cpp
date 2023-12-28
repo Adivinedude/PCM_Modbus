@@ -157,16 +157,16 @@ void loop() {
 #endif
 
   // Report UpTime
-  if( millis() - clock >= 1000 ){
-    clock = millis();
+  if( millis() >= clock){
+    clock = millis() + 1000;
     ir_data[input_register_total * MAX_NUM_PUMP + IR_CLOCK] = millis()/1000;
   }
   
   //Report how fast this loop is excuiting.
   loops_per_second++;
-  if( millis() - LoopClock  >= 10000 ){
+  if( millis() >= LoopClock ){
     d_print("report")
-    LoopClock = millis();
+    LoopClock = millis() + 10000;
     ir_data[input_register_total * MAX_NUM_PUMP + IR_FREE_RAM]    = freeRam();
     ir_data[input_register_total * MAX_NUM_PUMP + IR_LOOP_SPEED]  = loops_per_second / 10;
     loops_per_second = 0;

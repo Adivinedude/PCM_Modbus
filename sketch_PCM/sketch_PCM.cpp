@@ -138,18 +138,18 @@ uint32_t LoopClock         = 0;
 uint32_t loops_per_second  = 0;
 uint32_t clock             = 0;
 
-bool debug_trigger = true;
+//bool debug_trigger = true;
 
 void loop() { 
   _modbus.poll();
-if(debug_trigger && millis() > 20000){
+/*if(debug_trigger && millis() > 20000){
   d_println("Debug Triggered")
   debug_trigger = false;
   coil_data[0] = 1;
   hr_data[0] = 1000;
   hr_data[1] = 100;
   hr_data[2] = 100;
-}
+}*/
 
 #ifndef DEBUG_MY_PROGRAM
   for(uint8_t i = 0; i != MAX_NUM_PUMP; i++)

@@ -1,7 +1,7 @@
 # PCM_Modbus
 Pump Control Module over modbus
 
-This program used other open source software.
+This program uses other open source software.
 
 Some libraries have been modified to reduce size or add functionality to the sketch.
 

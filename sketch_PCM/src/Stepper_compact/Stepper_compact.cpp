@@ -83,11 +83,11 @@
  *   Sets which wires should control the motor.
  */
 Stepper::Stepper(){}
-void Stepper::Setup(int number_of_steps, int motor_pin_1, int motor_pin_2,
-                                      int motor_pin_3, int motor_pin_4)
+void Stepper::Setup(uint16_t number_of_steps, uint8_t motor_pin_1, uint8_t motor_pin_2,
+                                      uint8_t motor_pin_3, uint8_t motor_pin_4)
 {
   this->step_number = 0;    // which step the motor is on
-  this->direction = 0;      // motor direction
+  this->direction = false;  // motor direction
   this->last_step_time = 0; // time stamp in us of the last step taken
   this->number_of_steps = number_of_steps; // total number of steps for this motor
   this->steps_left = 0;
@@ -131,7 +131,7 @@ void Stepper::update(){
   this->last_step_time = now;
   // increment or decrement the step number,
   // depending on direction:
-  if (this->direction == 1)
+  if (this->direction)
   {
     this->step_number++;
     if (this->step_number == this->number_of_steps) {
@@ -157,8 +157,8 @@ void Stepper::update(){
 void Stepper::nonblocking_step(int steps_to_move){
   // determine direction based on whether steps_to_mode is + or -:
   this->steps_left = abs(steps_to_move);
-  if (steps_to_move > 0) { this->direction = 1; }
-  if (steps_to_move < 0) { this->direction = 0; }
+  if (steps_to_move > 0) { this->direction = true; }
+  if (steps_to_move < 0) { this->direction = false; }
 }
 
 /*

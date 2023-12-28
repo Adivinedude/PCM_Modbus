@@ -5,16 +5,15 @@
     ToDo: X - finished * - to be debugged  
       * - Active configuration. Modbus Address and protocol settings
         - Speed control with individual speed calibration
-        - Stepper Motor Support
-        - Servo Motor Support
+      X - Stepper Motor Support
+      X - Servo Motor Support
       * - enable debug direct control
-      * - replace dummy RunDCMotor function
+      X - replace dummy RunDCMotor function
         - write ISR in assembly for max speed.
-      * - pin selection - for Arduino Micro
-      * - pin selection - for Arduino Uno R3
-      * - MCU Porting to ATmega328p
-        - Need ideas to alter the number of motors accessed by modbus
-      General cleanup and optimization.
+      X - pin selection - for Arduino Micro
+      X - pin selection - for Arduino Uno R3
+      X - MCU Porting to ATmega328p        
+      X - General cleanup and optimization.
 
   Bugs
        
@@ -43,10 +42,9 @@
 #include "src/motors/Servo_motor.h"
 #include "src/motors/Stepper_motor.h"
 #include "src/motors/PulseStep_motor.h"
-//#include "_PulseStep_motor.h"
 
 #define BLINK_ON_STARTUP 100
-#define DEBUG_FORCE_ADDRESS 1
+//#define DEBUG_FORCE_ADDRESS 1
 
 int freeRam(){ extern int __heap_start,*__brkval; unsigned int a;return(int)&a-(__brkval==0?(int)&__heap_start:(int) __brkval);}
 /////end of debug stuff

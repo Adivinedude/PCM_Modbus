@@ -17,3 +17,6 @@ Arduino Stepper library
 Arduino Servo library
 
 ModbusRTUSlave library by C. M. Bulliner
+
+Update:
+2023-12-27 - program was re-written to be more readable and make driver additions cleaner.

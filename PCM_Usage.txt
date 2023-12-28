@@ -13,27 +13,30 @@ after setting the address, connect to your modbus client and start controlling t
 modbus points are at the end of this document
 
 Order of Operations
-	all paramaters should be loaded before setting the enable coil to "HIGH".
-	once the enable coil is "HIGH" state the unit will ignore any changes to the input 
-	coils and registers. These changes will take effect once the enable coil is set "LOW"
+	All paramaters should be loaded before setting the enable coil to "HIGH".
+	once the enable coil is "HIGH", the unit may ignore any changes to the coils
+        and holding registers. These changes will take effect once the enable coil is set
+        "LOW". The different motor types will process 'Holding Registers' differently.
+        See the specific driver.cpp file for details.
 
 Setting the enable coil to LOW will immedatly stop pumping, reguardless of progress.
-This can be done at any time. I strongly recommend that you have a way to stop the pump manualy.
-Something like a big red friendly button that says "push to stop"
+This can be done at any time. I strongly recommend that you have a way to stop the pump
+manualy. Something like a big red friendly button that says "push to stop"
 
 Using of physical feedback is possible with each pump within the unit.
 Feedback signals must be below 2v for logic LOW and above 3.5v for logic HIGH.
-Feedback signals must not excede 5V per ATmega329p Specs. See datasheet for more detail.
+Feedback signals must not excede 5V per ATmega328p Specs. See datasheet for more detail.
 Feedback pulses should exceed 20ns to ensure the signal will be detected by the hardware
 
-Calibration value: is the number of feedback pulses to dispence a single unit.
-if using the "h_bridge" driver with a DC motor, internal feedback is in milliseconds
-	with a servo, no effect
-	with a stepper motor, the feedback is in steps.
-
-your specific driver may very
 This program was written to be ammended with driver.cpp files to suit your indiviual needs.
+I have attempted to design this software to be as versatile as possible.
+any aspect of the device can be directly controlled via the motor.cpp structure.
+setup_motor - initiate resources for the driver and error check user input.
+run_motor   - process speed/direction changes
+work_motor  - a callback function that is ran each iteration of the pumping cycle
+stop_motor  - cleanup for the driver just before object destructor is called 
 
+Please see PCM_Modbus_Template.txt for simple description of each modbus point
 address - Register Type - Function
 
 Pump 1
@@ -99,31 +102,31 @@ Pump 4
 ----------
 
 Pump 1
-0x00 - i_register - TOTAL_FEEDBACK for this request
-0x01 - i_register - CYCLES remaining for this request
-0x02 - i_register - DOSE per cycle for this request
-0x03 - i_register - TIMER_VALUE timer to track cycle duration
+0x00 - i_register - TOTAL_FEEDBACK_HIGH
+0x01 - i_register - TOTAL_FEEDBACK_LOW
+0x02 - i_register - CYCLES remaining for this request
+0x03 - i_register - DOSE per cycle for this request
 0x04 - i_register - TOTAL units dispensed
 
 Pump 2
-0x05 - i_register - TOTAL_FEEDBACK
-0x06 - i_register - CYCLES
-0x07 - i_register - DOSE
-0x08 - i_register - TIMER_VALUE
+0x05 - i_register - TOTAL_FEEDBACK_HIGH
+0x06 - i_register - TOTAL_FEEDBACK_LOW
+0x07 - i_register - CYCLES
+0x08 - i_register - DOSE
 0x09 - i_register - TOTAL
 
 Pump 3
-0x0a - i_register - TOTAL_FEEDBACK
-0x0b - i_register - CYCLES
-0x0c - i_register - DOSE
-0x0d - i_register - TIMER_VALUE
+0x0a - i_register - TOTAL_FEEDBACK_HIGH
+0x0b - i_register - TOTAL_FEEDBACK_LOW
+0x0c - i_register - CYCLES
+0x0d - i_register - DOSE
 0x0e - i_register - TOTAL
 
 Pump 4
-0x0f - i_register - TOTAL_FEEDBACK
-0x10 - i_register - CYCLES
-0x11 - i_register - DOSE
-0x12 - i_register - TIMER_VALUE
+0x0f - i_register - TOTAL_FEEDBACK_HIGH
+0x10 - i_register - TOTAL_FEEDBACK_LOW
+0x11 - i_register - CYCLES
+0x12 - i_register - DOSE
 0x13 - i_register - TOTAL
 
 ----------
@@ -131,3 +134,4 @@ Pump 4
 Special Registers
 0x14 - i_register - FreeRam. ammount of system memory currently available
 0x15 - i_register - System Cycles per second. How fast the controller is processing
+0x16 - i_register - System Uptime in seconds

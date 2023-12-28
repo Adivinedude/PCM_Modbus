@@ -30,47 +30,21 @@
 
   //input registers
   enum input_registers{
-    IR_FEEDBACK_COUNTER = 0, // Current value of feedback pulses
+    IR_FEEDBACK_COUNTER_HIGH = 0, // Current value of feedback pulses
+    IR_FEEDBACK_COUNTER_LOW,
     IR_CYCLES,          // How many 1 second cycles left until the request is complete
     IR_DOSE,            // How many feedback pulses be dispenced per cycle
-    IR_TIMER_VALUE,     // Time the last cycle started
     IR_TOTAL,           // Total amount dispenced in units.
     input_register_total
   };
 
   //Modbus address offsets for each pump
-  //coils - controler out, server in
-  enum pump_offset_coil{
-    PUMP_1_C = 0,
-    PUMP_2_C = coil_total,
-    PUMP_3_C = coil_total * 2,
-    PUMP_4_C = coil_total * 3
-  };
-  //descrete inputs controler in, server out
-  enum pump_offset_di{
-    PUMP_1_D = 0,
-    PUMP_2_D = descrete_input_total,
-    PUMP_3_D = descrete_input_total * 2,
-    PUMP_4_D = descrete_input_total * 3
-  };
-  //hold registers controler out, server in
-  enum pump_offset_hr{
-    PUMP_1_H = 0,
-    PUMP_2_H = hold_register_total,
-    PUMP_3_H = hold_register_total * 2,
-    PUMP_4_H = hold_register_total * 3
-  };
-  //input registers, controler in, server out
-  enum pump_offset_ir{
-    PUMP_1_I = 0,
-    PUMP_2_I = input_register_total,
-    PUMP_3_I = input_register_total * 2,
-    PUMP_4_I = input_register_total * 3
-  };
   //special input register at the end
-  enum special_registers{
-    IR_FREE_RAM = input_register_total * 4,  // report system memory
-    IR_LOOP_SPEED                             // report system speed
+  enum special_input_registers{
+    IR_FREE_RAM = 0,  // report system memory
+    IR_LOOP_SPEED,    // report system speed
+    IR_CLOCK,         // report system up time
+    special_input_register_size
   };
 
   //value stored within the pump_values array
@@ -80,6 +54,8 @@
     PUMP_DURATION,    //how long to dispence set amount
     PUMP_DOSE,        //
     PUMP_CYCLE_START_FEEDBACK, //Feedback counter value at start of current cycle
+    PUMP_TOTAL_FEEDBACK,
+    PUMP_TIMER_VALUE,
     PUMP_VALUE_SIZE
   };
 
@@ -87,25 +63,15 @@
   enum pump_state_bits{
     STATE_BIT0 = 0,
     STATE_BIT1,
-    MOTOR_BIT0,
-    MOTOR_BIT1,
-    MOTOR_BIT2,
-    MOTOR_BIT3,
-    UNUSED_BIT6,
-    UNUSED_BIT7,
-    UNUSED_BIT8,
-    UNUSED_BIT9,
-    UNUSED_BIT10,
-    UNUSED_BIT11,
+    UNUSED_BIT2,
+    UNUSED_BIT3,
     INVERT_BIT,
     DEBUG_BIT,
     FEEDBACK_BIT,
     ENABLE_BIT
   };
 
-  #define MOTOR_BITS    0x3C //type of motor
   #define STATE_BITS    0x03 //current state
-  //unused bit 11 - 4
   enum motor_types{
     MOTOR_TYPE_DC = 0,
     MOTOR_TYPE_SERVO,

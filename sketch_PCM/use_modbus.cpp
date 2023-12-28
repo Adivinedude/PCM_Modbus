@@ -16,7 +16,7 @@ void setup_modbus(int address){
   _modbus.configureCoils(           coil_data,  coil_total          * MAX_NUM_PUMP);
   _modbus.configureDiscreteInputs(  di_data,    descrete_input_total* MAX_NUM_PUMP);
   _modbus.configureHoldingRegisters(hr_data,    hold_register_total * MAX_NUM_PUMP);
-  _modbus.configureInputRegisters(  ir_data,    input_register_total* MAX_NUM_PUMP + 2); //Plus special registers
+  _modbus.configureInputRegisters(  ir_data,    input_register_total* MAX_NUM_PUMP + special_input_register_size); //Plus special registers
 
   for(int i = 0; i != coil_total*4; i++)
     coil_data[i] = 0;

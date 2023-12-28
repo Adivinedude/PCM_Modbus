@@ -4,10 +4,8 @@
   #include "pins.h"
   #include "use_modbus.h"
   #include "my_useful_functions.h"
-  
-  extern uint16_t pump_values[4][PUMP_VALUE_SIZE];        //pump states and values
+  //extern uint32_t pump_values[4][PUMP_VALUE_SIZE];        //pump states and values
   extern volatile uint32_t pump_counters[4];//pump feedback counters
-  extern uint32_t pump_total[4];
   //modbus data
   extern bool  coil_data [];
   extern bool  di_data   [];

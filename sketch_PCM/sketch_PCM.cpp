@@ -128,7 +128,7 @@ void setup() {
     di_data[i] = 0;
   for(uint16_t i = 0; i < hold_register_total*MAX_NUM_PUMP; i++)
     hr_data[i] = 0;
-  for(uint16_t i = 0; i < input_register_total*MAX_NUM_PUMP; i++)
+  for(uint16_t i = 0; i < input_register_total*MAX_NUM_PUMP+special_input_register_size; i++)
     ir_data[i] = 0;
 }
 

@@ -2,14 +2,13 @@
   Modbus RTU Server Four Channel Pump Control Module
   Version 0.1
   Features
-    ToDo: X - finished * - to be debugged  
+    ToDo: X - finished    * - to be debugged  
       * - Active configuration. Modbus Address and protocol settings
         - Speed control with individual speed calibration
       X - Stepper Motor Support
       X - Servo Motor Support
       * - enable debug direct control
       X - replace dummy RunDCMotor function
-        - write ISR in assembly for max speed.
       X - pin selection - for Arduino Micro
       X - pin selection - for Arduino Uno R3
       X - MCU Porting to ATmega328p        
@@ -29,7 +28,7 @@
   created 2023-11-9 
   by R.Rainwater
 */
-#include "Arduino.h"
+#include "sketch_PCM.h"
 #include "pins.h" 
 #include "use_modbus.h"
 #include "feedback.h"
@@ -44,9 +43,8 @@
 #include "src/motors/PulseStep_motor.h"
 
 #define BLINK_ON_STARTUP 100
-//#define DEBUG_FORCE_ADDRESS 1
+#define DEBUG_FORCE_ADDRESS 1
 
-int freeRam(){ extern int __heap_start,*__brkval; unsigned int a;return(int)&a-(__brkval==0?(int)&__heap_start:(int) __brkval);}
 /////end of debug stuff
 cPCM pump[4];
 
@@ -132,51 +130,43 @@ void setup() {
     ir_data[i] = 0;
 }
 
-uint32_t LoopClock         = 0;
 uint32_t loops_per_second  = 0;
-uint32_t clock             = 0;
+uint32_t uptime_timer      = 0;
+uint8_t  LoopClock         = 0;
 
-//bool debug_trigger = true;
+debug_triger_global
 
 void loop() { 
-  _modbus.poll();
-/*if(debug_trigger && millis() > 20000){
-  d_println("Debug Triggered")
-  debug_trigger = false;
-  coil_data[0] = 1;
-  hr_data[0] = 1000;
-  hr_data[1] = 100;
-  hr_data[2] = 100;
-}*/
+  debug_triger_function
 
-#ifndef DEBUG_MY_PROGRAM
+  _modbus.poll();
+
   for(uint8_t i = 0; i != MAX_NUM_PUMP; i++)
     pump[i].run();
-#else
-  pump[0].run();
-#endif
+
+  time_to_update = false;
+  loops_per_second++;
 
   // Report UpTime
-  if( millis() >= clock){
-    clock = millis() + 1000;
-    ir_data[input_register_total * MAX_NUM_PUMP + IR_CLOCK] = millis()/1000;
-  }
-  
-  //Report how fast this loop is excuiting.
-  loops_per_second++;
-  if( millis() >= LoopClock ){
-    d_print("report")
-    LoopClock = millis() + 10000;
-    ir_data[input_register_total * MAX_NUM_PUMP + IR_FREE_RAM]    = freeRam();
-    ir_data[input_register_total * MAX_NUM_PUMP + IR_LOOP_SPEED]  = loops_per_second / 10;
-    loops_per_second = 0;
-    d_println(" finished")
+  if( millis() >= uptime_timer){
+    time_to_update = true;
+    uptime_timer = millis() + 1000;
+    ir_data[SIR_UPTIME] = millis()/1000;
+    
+    //Report how fast this loop is excuiting.
+    LoopClock++;
+    if( LoopClock >= 10 ){
+      LoopClock = 0;
+      TrackFreeRam();
+      ir_data[SIR_FREE_RAM]    = _gFreeRam;
+      _gFreeRam = 0xFFFF;
+      ir_data[SIR_LOOP_SPEED]  = loops_per_second / 10;
+      loops_per_second = 0;
+    }
   }
 }
-
 //Motor type factory.
-cMotor_Base_Class* cPCM::GetNewMotor(uint8_t id){
-  uint8_t type = hr_data[id * hold_register_total + HR_MOTOR_TYPE];
+cMotor_Base_Class* cPCM::GetNewMotor(uint8_t type){
   switch(type){
     case MOTOR_TYPE_DC:
       return new cDCMotor;

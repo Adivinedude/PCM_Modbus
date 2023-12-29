@@ -24,6 +24,9 @@
     HR_CAL = 0,         // How many feedback pulses equals 1 unit
     HR_DURATION,        // Minimume time to take to despence requested amount
     HR_DOSE,            // How many units to dispence
+    //HR_MINSPEED,        // Minimum speed of the motor
+    //HR_MAXSPEED,        // Maxium speed of motor
+    //HR_ACCELERATION,    // Acceleration rate of motor.
     HR_MOTOR_TYPE,      // 0 = DC, 1 = Servo, 2 = Stepper(bipolar), 4 = Pulse Step
     hold_register_total
   };
@@ -41,9 +44,9 @@
   //Modbus address offsets for each pump
   //special input register at the end
   enum special_input_registers{
-    IR_FREE_RAM = 0,  // report system memory
-    IR_LOOP_SPEED,    // report system speed
-    IR_CLOCK,         // report system up time
+    SIR_FREE_RAM = MAX_NUM_PUMP * input_register_total,  // report system memory
+    SIR_LOOP_SPEED,    // report system speed
+    SIR_UPTIME,         // report system up time
     special_input_register_size
   };
 

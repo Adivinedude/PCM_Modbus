@@ -6,7 +6,7 @@ This program uses other open source software. Some of the libraries used have be
 # Credits 
 - Arduino Stepper library
 - Arduino Servo library
-- ModbusRTUSlave library by C. M. Bulliner
+- [ModbusRTUSlave library by C. M. Bulliner](https://github.com/CMB27/ModbusRTUSlave)
 
 # 2023-12-29
 - Additional features added.

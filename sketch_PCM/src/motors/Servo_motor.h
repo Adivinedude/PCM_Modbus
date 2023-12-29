@@ -6,9 +6,10 @@
   class cServoMotor : public cMotor_Base_Class{
     public:
       Servo servos[3];
-      void setup_motor(cPCM*);
-      void run_motor(cPCM*, uint8_t);
-      void work_motor(cPCM*);
-      void stop_motor(cPCM*);
+      bool UseDefaultHandler() override {return false;}
+      void setup_motor(cPCM*) override;
+      void run_motor(cPCM*, uint8_t) override;
+      void work_motor(cPCM*) override;
+      void stop_motor(cPCM*) override;
   };
 #endif

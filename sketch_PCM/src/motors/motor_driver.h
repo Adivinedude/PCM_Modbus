@@ -7,6 +7,7 @@
     public:
         cMotor_Base_Class(){};
         virtual ~cMotor_Base_Class(){};
+        virtual bool UseDefaultHandler() { return true;}
         virtual void setup_motor(cPCM*){};
         virtual void run_motor  (cPCM*, uint8_t speed){};
         virtual void work_motor (cPCM*){}

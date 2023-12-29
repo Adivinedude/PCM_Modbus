@@ -1,23 +1,14 @@
 # PCM_Modbus
 Pump Control Module over modbus
 
-This program uses other open source software.
+This program uses other open source software. Some of the libraries used have been modified to reduce size and/or add functionality to the sketch. Currently only supporting Atmega328p and ATmega32u4 microcontrollers
 
-Some libraries have been modified to reduce size or add functionality to the sketch.
+# Credits 
+- Arduino Stepper library
+- Arduino Servo library
+- ModbusRTUSlave library by C. M. Bulliner
 
-project is currently in pre-beta
-currently only known to work on
-
-Atmega328p and ATmega32u4.
-
-credits: 
-
-Arduino Stepper library
-
-Arduino Servo library
-
-ModbusRTUSlave library by C. M. Bulliner
-2023-12-29
+# 2023-12-29
 - Additional features added.
   - New Motor class model to simplify implementation and option to bypass default motor handler.
   - System uptime counter.

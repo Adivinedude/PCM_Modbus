@@ -1,7 +1,7 @@
 # PCM_Modbus
 Pump Control Module over modbus
 
-This program uses other open source software. Some of the libraries used have been modified to reduce size and/or add functionality to the sketch. Currently only supporting Atmega328p and ATmega32u4 microcontrollers. Special Thanks to mc68k over at sciencemadness.org for the initial motivations and ideas for this project. Full details can be found at [ScienceMaddness.org](https://www.sciencemadness.org/whisper/viewthread.php?tid=159931)
+This program uses other open source software. Some of the libraries used have been modified to reduce size and/or add functionality to the sketch. Currently only supporting Atmega328p and ATmega32u4 microcontrollers. Special Thanks to mc68k over at sciencemadness.org for the initial motivations and ideas for this project. Full details can be found at [ScienceMadness.org](https://www.sciencemadness.org/whisper/viewthread.php?tid=159931)
 
 # Credits 
 - Arduino Stepper library

@@ -8,6 +8,9 @@ This program uses other open source software. Some of the libraries used have be
 - Arduino Servo library
 - [ModbusRTUSlave library by C. M. Bulliner](https://github.com/CMB27/ModbusRTUSlave)
 
+# Wiring
+![PCM_Modbus wiring diagram](PCM_drawing_schem.jpg)
+
 # 2023-12-29
 - Additional features added.
   - New Motor class model to simplify implementation and option to bypass default motor handler.

@@ -1,9 +1,11 @@
 #include "Servo_motor.h"
 #include "../../globals.h"
 #include "../../cPCM.h"
-///////////////
-//Servo motor//
-//short servo_position[4][2];
+/*//////////////////////////////////////////////
+//            Built to include the            //
+//               Servo Library                //
+// https://github.com/arduino-libraries/Servo //
+//////////////////////////////////////////////*/
 
 void cServoMotor::setup_motor(cPCM* t){
   servos[0].attach(MOTOR_PINS[t->id][MOTOR_ENABLE]);

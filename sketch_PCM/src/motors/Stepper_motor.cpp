@@ -1,8 +1,13 @@
 #include "Stepper_motor.h"
 #include "../../globals.h"
 #include "../../cPCM.h"
-/////////////////
-//Stepper Motor//
+/*//////////////////////////////////////////////////////
+//                Built to include the                //
+//                  Stepper Library                   //
+// This library has been modified to decrease it size //
+//             And limit it functionality             //
+//   https://github.com/arduino-libraries/Stepper/    //
+//////////////////////////////////////////////////////*/
 void cStepperMotor::setup_motor(cPCM* t){
   switch( t->id ){
     case 0:

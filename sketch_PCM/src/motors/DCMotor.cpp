@@ -1,8 +1,13 @@
 #include "DCMotor.h"
 #include "../../cPCM.h"
 #include "../../globals.h"
-////////////
-//Dc Motor//
+
+/*//////////////////////////////////////////////////////////
+//                  Built to control the                  //
+//           L298 Series of Motor Driver Module           //
+// https://dronebotworkshop.com/dc-motors-l298n-h-bridge/ //
+//////////////////////////////////////////////////////////*/
+
 void cDCMotor::setup_motor(cPCM* t){
   d_println("cDCMotor::setup")
   start_feedback = 0;
